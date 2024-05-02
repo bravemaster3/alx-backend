@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Simple pagination
+Hypermedia pagination
 """
 
 import csv
 import math
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 
 def index_range(page: int, page_size: int) -> Tuple[int, int]:
@@ -49,3 +49,20 @@ class Server:
         page_data = dataset[idx_tuple[0]: idx_tuple[1]]
 
         return page_data
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
+        """Get hyper pagination"""
+        page_data = self.get_page(page, page_size)
+        dataset = self.dataset()
+        total_pages = math.ceil(len(dataset)/page_size)
+
+        hyper = {
+            "page_size": len(page_data),
+            "page": page,
+            "data": page_data,
+            "next_page": page + 1 if page < total_pages else None,
+            "prev_page": page -1 if page > 1 else None,
+            "total_pages": total_pages
+        }
+
+        return hyper
