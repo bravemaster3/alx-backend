@@ -4,7 +4,7 @@ Helper function for pagination
 """
 
 
-def index_range(page, page_size):
+def index_range(page: int, page_size: int) -> tuple:
     """Function definition here"""
     start_index = (page - 1) * page_size
     end_index = start_index + page_size
