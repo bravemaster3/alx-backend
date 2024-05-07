@@ -57,7 +57,6 @@ class Server:
 
         next_index = min(index + page_size, max_index + 1)
 
-
         page_data = [dataset[i] for i in range(index, next_index)
                      if i in dataset]
 
@@ -67,4 +66,3 @@ class Server:
             "page_size": len(page_data),
             "data": page_data
         }
-
