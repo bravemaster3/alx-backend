@@ -16,7 +16,7 @@ class LIFOCache(BaseCaching):
             return
         elif key in self.cache_data:
             value = self.cache_data.pop(key)
-            self.cache_data[key] = value
+            self.cache_data[key] = item
         elif len(self.cache_data) < max_items:
             self.cache_data[key] = item
         elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
