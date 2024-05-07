@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-class LIFOCache that inherits from BaseCaching and is a caching system:
+class LRUCache that inherits from BaseCaching and is a caching system:
 """
 
 BaseCaching = __import__("base_caching").BaseCaching
 
 
-class LIFOCache(BaseCaching):
+class LRUCache(BaseCaching):
     """Class definition here"""
 
     def put(self, key, item):
@@ -20,7 +20,7 @@ class LIFOCache(BaseCaching):
         elif len(self.cache_data) < max_items:
             self.cache_data[key] = item
         elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            last_key = list(self.cache_data.keys())[-1]
+            last_key = list(self.cache_data.keys())[0]
             del self.cache_data[last_key]
             print("DISCARD:", last_key)
             self.cache_data[key] = item
@@ -29,4 +29,6 @@ class LIFOCache(BaseCaching):
         """returns the value of a key"""
         if not key or key not in self.cache_data:
             return None
-        return self.cache_data[key]
+        value = self.cache_data.pop(key)
+        self.cache_data[key] = value
+        return value

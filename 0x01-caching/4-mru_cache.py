@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-class LIFOCache that inherits from BaseCaching and is a caching system:
+class MRUCache that inherits from BaseCaching and is a caching system:
 """
 
 BaseCaching = __import__("base_caching").BaseCaching
 
 
-class LIFOCache(BaseCaching):
+class MRUCache(BaseCaching):
     """Class definition here"""
 
     def put(self, key, item):
@@ -29,4 +29,6 @@ class LIFOCache(BaseCaching):
         """returns the value of a key"""
         if not key or key not in self.cache_data:
             return None
-        return self.cache_data[key]
+        value = self.cache_data.pop(key)
+        self.cache_data[key] = value
+        return value
