@@ -6,6 +6,7 @@ basic Flask app
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
 import pytz
+import datetime
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -66,7 +67,8 @@ def before_request():
 @app.route('/')
 def index():
     """renders a simple page"""
-    return render_template('7-index.html')
+    current_time = datetime.datetime.now().strftime('%b %d, %Y, %I:%M:%S %p')
+    return render_template('index.html', current_time=current_time)
 
 
 if __name__ == '__main__':
