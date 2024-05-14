@@ -88,6 +88,7 @@ def get_timezone():
     # Default to UTC if no valid timezone is found
     return 'UTC'
 
+
 @app.route('/')
 def index():
     """renders a simple page"""

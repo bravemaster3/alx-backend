@@ -4,8 +4,9 @@ basic Flask app
 """
 
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, format_datetime
 import pytz
+from pytz import UnknownTimeZoneError
 import datetime
 
 app = Flask(__name__)
@@ -64,11 +65,37 @@ def before_request():
     g.user = get_user(int(user_id)) if user_id else None
 
 
+@babel.timezoneselector
+def get_timezone():
+    # Check if the 'timezone' parameter is present in the URL parameters
+    if 'timezone' in request.args:
+        timezone = request.args['timezone']
+        # Check if the provided timezone is valid
+        try:
+            pytz.timezone(timezone)
+            return timezone
+        except UnknownTimeZoneError:
+            pass
+
+    # Check if user settings exist and the timezone is valid
+    if g.user and 'timezone' in g.user:
+        user_timezone = g.user['timezone']
+        try:
+            pytz.timezone(user_timezone)
+            return user_timezone
+        except UnknownTimeZoneError:
+            pass
+
+    # Default to UTC if no valid timezone is found
+    return 'UTC'
+
+
 @app.route('/')
 def index():
     """renders a simple page"""
-    current_time = datetime.datetime.now().strftime('%b %d, %Y, %I:%M:%S %p')
-    return render_template('index.html', current_time=current_time)
+    current_time = datetime.datetime.now()
+    formatted_time = format_datetime(current_time, format='medium')
+    return render_template('index.html', current_time=formatted_time)
 
 
 if __name__ == '__main__':
