@@ -1,3 +1,4 @@
+// connecting to a redis client on the machine
 import redis from 'redis';
 
 const client = redis.createClient();
