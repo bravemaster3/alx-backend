@@ -12,7 +12,7 @@ const listProducts = [
 
 // Helper function
 function getItemById(id) {
-  return listProducts.find((product) => product.id === id);
+  return (listProducts.find((product) => product.id === id));
 }
 
 // Create Redis client and promisify methods
@@ -37,7 +37,7 @@ const PORT = 1245;
 
 // Routes
 app.get('/list_products', (req, res) => {
-  res.json(listProducts.map(product => ({
+  res.json(listProducts.map((product) => ({
     itemId: product.id,
     itemName: product.name,
     price: product.price,
